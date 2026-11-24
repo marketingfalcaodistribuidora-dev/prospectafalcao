@@ -1,0 +1,6 @@
+# dados em texto aberto ficam só na máquina; no repositório vai apenas dados.enc (cifrado)
+dados.json
+*.csv
+*.xlsx
+.vercel
+node_modules

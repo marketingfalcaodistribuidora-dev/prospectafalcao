@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Prospecção Falcão</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Prospecção">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="aviso" class="aviso" hidden></div>
+
+<section id="tela-codigo" class="codigo" hidden>
+  <form id="form-codigo">
+    <h1>Prospecção Falcão</h1>
+    <p>Digite o código de acesso que a Falcão te passou.</p>
+    <input id="codigo" type="password" autocomplete="current-password" placeholder="Código de acesso" required>
+    <button class="btn" type="submit">Entrar</button>
+    <p id="erro-codigo" class="erro" hidden>Código incorreto. Tente de novo.</p>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header>
+    <div class="linha">
+      <h1>Prospecção · região de Irecê</h1>
+      <button id="menu-btn" class="icone" aria-label="Menu" aria-expanded="false">⋯</button>
+    </div>
+    <div id="menu" class="menu" hidden>
+      <button id="salvar-copia" class="btn s">Baixar cópia das minhas marcações</button>
+      <label class="btn s arquivo">Restaurar cópia<input id="restaurar" type="file" accept="application/json,.json" hidden></label>
+      <button id="instalar" class="btn s" hidden>Adicionar à tela inicial</button>
+      <p id="armaz" class="mu"></p>
+    </div>
+    <select id="cid" aria-label="Cidade"></select>
+    <input id="q" type="search" placeholder="Buscar nome, rua, telefone…" aria-label="Buscar">
+    <div class="chips ordena" role="group" aria-label="Ordenar por">
+      <span class="mu">Ordenar:</span>
+      <button class="chip on" data-o="rota">Por rota</button>
+      <button class="chip" data-o="certeza">Por certeza</button>
+    </div>
+    <div class="chips">
+      <button class="chip on" data-n="1">Alta</button>
+      <button class="chip on" data-n="2">Média</button>
+      <button class="chip on" data-n="3">Baixa</button>
+      <button class="chip" data-n="9">Inativas</button>
+      <button class="chip" id="pend">Só não visitadas</button>
+    </div>
+    <div id="progresso" class="prog"></div>
+  </header>
+  <main>
+    <div id="rota"></div>
+    <div class="leg">Alta = ativa, com telefone e nome de linha pesada · Média = perfil parecido · Baixa = autopeças em geral. Só a visita confirma o que a loja vende.</div>
+    <div id="lista"></div>
+    <p class="mu rodape">Levantamento de <span id="hoje"></span>. Dados de diretório, Receita Federal e IBGE; podem estar desatualizados. Suas marcações e anotações ficam salvas só neste aparelho.</p>
+  </main>
+  <div id="salvo" class="salvo" role="status" aria-live="polite"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
