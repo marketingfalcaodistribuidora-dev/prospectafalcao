@@ -1,5 +1,5 @@
 /* Service worker: deixa o app abrir sem internet (na estrada). Nunca mexe nas marcações do usuário. */
-const VERSAO = "v2";
+const VERSAO = "v3";
 const CACHE = "prospeccao-falcao-" + VERSAO;
 const ARQUIVOS = [
   "./",

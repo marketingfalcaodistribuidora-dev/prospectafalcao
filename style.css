@@ -16,21 +16,23 @@
   --n9: #dc2626;
   --sombra: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 1px rgba(15, 23, 42, 0.04);
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0d12;
-    --card: #161a22;
-    --tx: #f1f5f9;
-    --mu: #94a3b8;
-    --bd: #262c38;
-    --ac: #60a5fa;
-    --ac-tx: #0b1220;
-    --soft: #16233b;
-    --ok: #4ade80;
-    --wpp: #22c55e;
-    --warn: #fbbf24;
-    --sombra: none;
-  }
+:root {
+  color-scheme: light;
+}
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --bg: #0b0d12;
+  --card: #161a22;
+  --tx: #f1f5f9;
+  --mu: #94a3b8;
+  --bd: #262c38;
+  --ac: #60a5fa;
+  --ac-tx: #0b1220;
+  --soft: #16233b;
+  --ok: #4ade80;
+  --wpp: #22c55e;
+  --warn: #fbbf24;
+  --sombra: none;
 }
 * {
   box-sizing: border-box;
@@ -639,9 +641,6 @@ details.mais[open] > summary::after {
 .erro {
   color: #dc2626 !important;
   font-size: 14px;
-}
-.arquivo {
-  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {

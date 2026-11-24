@@ -4,6 +4,7 @@
   "use strict";
   const CHAVE = "prospeccao-falcao:estado:v1";
   const CHAVE_CODIGO = "prospeccao-falcao:codigo:v1";
+  const CHAVE_TEMA = "prospeccao-falcao:estado:v1:tema";
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
   const esc = (t) =>
@@ -33,6 +34,16 @@
   let niveis = new Set([1, 2, 3]);
   let ordem = "rota";
   let soPendentes = false;
+
+  /* ---------- tema (o claro é o inicial) ---------- */
+  function aplicarTema(t) {
+    const escuro = t === "escuro";
+    document.documentElement.dataset.tema = escuro ? "escuro" : "claro";
+    const m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.content = escuro ? "#0b0d12" : "#f3f4f6";
+    const b = document.querySelector("#tema");
+    if (b) b.textContent = escuro ? "Usar tema claro" : "Usar tema escuro";
+  }
 
   /* ---------- armazenamento ---------- */
   function guardar(chave, valor) {
@@ -84,7 +95,7 @@
       salvouOk = false;
       $("#salvo").textContent = "";
       avisar(
-        'Não foi possível salvar neste navegador (modo anônimo ou sem espaço). Use "Baixar cópia" no menu para não perder o que anotou.',
+        'Não foi possível salvar neste navegador (modo anônimo ou sem espaço). As anotações podem se perder ao fechar o app.',
       );
     }
   }
@@ -344,54 +355,6 @@
 </article>`;
   }
 
-  /* ---------- cópia de segurança ---------- */
-  function baixarCopia() {
-    const blob = new Blob(
-      [
-        JSON.stringify(
-          {
-            app: "prospeccao-falcao",
-            versao: 1,
-            em: new Date().toISOString(),
-            estado: S,
-          },
-          null,
-          1,
-        ),
-      ],
-      { type: "application/json" },
-    );
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download =
-      "marcacoes-prospeccao-" + new Date().toISOString().slice(0, 10) + ".json";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-  }
-  function restaurarCopia(arquivo) {
-    const leitor = new FileReader();
-    leitor.onload = () => {
-      try {
-        const o = JSON.parse(leitor.result);
-        const novo = (o && o.estado) || {};
-        Object.keys(novo).forEach((id) => {
-          const a = S[id],
-            b = novo[id];
-          if (!a || (b.t || 0) >= (a.t || 0)) S[id] = b; // fica o mais recente
-        });
-        gravarJa();
-        render();
-        avisar("Cópia restaurada.");
-        setTimeout(() => avisar(null), 3000);
-      } catch (e) {
-        avisar("Arquivo inválido: não consegui restaurar.");
-      }
-    };
-    leitor.readAsText(arquivo);
-  }
-
   /* ---------- cabeçalho: some ao rolar para baixo, volta ao rolar para cima ---------- */
   function cabecalhoInteligente() {
     const topo = $("#topo");
@@ -515,10 +478,10 @@
       if (!ta.hidden) ta.focus();
     });
 
-    $("#salvar-copia").onclick = baixarCopia;
-    $("#restaurar").onchange = (ev) => {
-      if (ev.target.files[0]) restaurarCopia(ev.target.files[0]);
-      ev.target.value = "";
+    $("#tema").onclick = () => {
+      const novo = document.documentElement.dataset.tema === "escuro" ? "claro" : "escuro";
+      guardar(CHAVE_TEMA, novo);
+      aplicarTema(novo);
     };
     let evInstalar = null;
     window.addEventListener("beforeinstallprompt", (ev) => {
@@ -537,10 +500,12 @@
     cabecalhoInteligente();
     if (!salvouOk)
       avisar(
-        'Este navegador não deixa salvar. Use "Baixar cópia" no menu para não perder suas anotações.',
+        'Este navegador não deixa salvar. As anotações podem se perder ao fechar o app.',
       );
     render();
   }
+
+  aplicarTema(ler(CHAVE_TEMA));
 
   carregarDados()
     .then(iniciar)

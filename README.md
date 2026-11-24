@@ -8,7 +8,8 @@ Site estático (HTML, CSS e JavaScript puros, sem dependências), publicado na V
 
 - Escolhe a cidade, vê as empresas e **ordena por rota** (menor caminho de carro) ou **por certeza** (alta, média, baixa).
 - Toca para ligar, abrir o WhatsApp, o Google Maps ou "Ir até aqui".
-- Marca **Visitada** e escreve **anotações** em cada empresa. Tudo fica salvo no aparelho (`localStorage`), com gravação imediata, e dá para baixar e restaurar uma cópia.
+- Marca **Visitada** e escreve **anotações** em cada empresa. Tudo fica salvo no aparelho (`localStorage`), com gravação imediata.
+- Abre no **tema claro**; o menu tem a opção de usar o tema escuro (fica lembrada no aparelho).
 - Funciona sem internet depois da primeira abertura (service worker) e pode ser instalado na tela inicial.
 
 ## Dados
