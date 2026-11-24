@@ -15,51 +15,67 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="aviso" class="aviso" hidden></div>
+<div id="aviso" class="aviso" role="alert" hidden></div>
 
 <section id="tela-codigo" class="codigo" hidden>
   <form id="form-codigo">
     <h1>Prospecção Falcão</h1>
     <p>Digite o código de acesso que a Falcão te passou.</p>
     <input id="codigo" type="password" autocomplete="current-password" placeholder="Código de acesso" required>
-    <button class="btn" type="submit">Entrar</button>
+    <button class="b prim" type="submit">Entrar</button>
     <p id="erro-codigo" class="erro" hidden>Código incorreto. Tente de novo.</p>
   </form>
 </section>
 
 <div id="app" hidden>
-  <header>
-    <div class="linha">
-      <h1>Prospecção · região de Irecê</h1>
-      <button id="menu-btn" class="icone" aria-label="Menu" aria-expanded="false">⋯</button>
+  <header id="topo">
+    <div class="l1">
+      <select id="cid" aria-label="Cidade"></select>
+      <button id="busca-btn" class="icone" aria-label="Buscar" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="menu-btn" class="icone" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="5" cy="12" r="1.8" fill="currentColor"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/><circle cx="19" cy="12" r="1.8" fill="currentColor"/></svg>
+      </button>
     </div>
+    <div id="busca" class="busca" hidden>
+      <input id="q" type="search" placeholder="Nome, rua ou telefone" aria-label="Buscar">
+    </div>
+    <div class="l2">
+      <div class="seg" role="group" aria-label="Ordenar por">
+        <button data-o="rota" class="on" aria-pressed="true">Rota</button>
+        <button data-o="certeza" aria-pressed="false">Certeza</button>
+      </div>
+      <div class="filtros" role="group" aria-label="Filtrar">
+        <button class="chip on" data-n="1" aria-pressed="true"><i class="dot n1"></i>Alta <b class="cont"></b></button>
+        <button class="chip on" data-n="2" aria-pressed="true"><i class="dot n2"></i>Média <b class="cont"></b></button>
+        <button class="chip on" data-n="3" aria-pressed="true"><i class="dot n3"></i>Baixa <b class="cont"></b></button>
+        <button class="chip" data-n="9" aria-pressed="false"><i class="dot n9"></i>Inativas <b class="cont"></b></button>
+        <button class="chip" id="pend" aria-pressed="false">Não visitadas</button>
+      </div>
+    </div>
+    <div class="prog" aria-hidden="true"><i id="prog-barra"></i></div>
     <div id="menu" class="menu" hidden>
-      <button id="salvar-copia" class="btn s">Baixar cópia das minhas marcações</button>
-      <label class="btn s arquivo">Restaurar cópia<input id="restaurar" type="file" accept="application/json,.json" hidden></label>
-      <button id="instalar" class="btn s" hidden>Adicionar à tela inicial</button>
+      <div class="leg">
+        <b>Como ler</b>
+        <p><i class="dot n1"></i> <b>Alta</b>: ativa, com telefone e nome de caminhão, diesel ou linha pesada.</p>
+        <p><i class="dot n2"></i> <b>Média</b>: perfil parecido (injeção, retífica, tratores, pneus, atacado).</p>
+        <p><i class="dot n3"></i> <b>Baixa</b>: autopeças em geral. Só a visita confirma o que a loja vende.</p>
+        <p>O número azul é a ordem da rota (menor caminho de carro) e não muda ao trocar a ordenação.</p>
+      </div>
+      <div class="acoes-menu">
+        <button id="salvar-copia" class="b">Baixar cópia das marcações</button>
+        <label class="b arquivo">Restaurar cópia<input id="restaurar" type="file" accept="application/json,.json" hidden></label>
+        <button id="instalar" class="b" hidden>Adicionar à tela inicial</button>
+      </div>
       <p id="armaz" class="mu"></p>
+      <p class="mu">Levantamento de <span id="hoje"></span>. Dados de diretório, Receita Federal e IBGE; podem estar desatualizados. Suas marcações e anotações ficam salvas só neste aparelho.</p>
     </div>
-    <select id="cid" aria-label="Cidade"></select>
-    <input id="q" type="search" placeholder="Buscar nome, rua, telefone…" aria-label="Buscar">
-    <div class="chips ordena" role="group" aria-label="Ordenar por">
-      <span class="mu">Ordenar:</span>
-      <button class="chip on" data-o="rota">Por rota</button>
-      <button class="chip" data-o="certeza">Por certeza</button>
-    </div>
-    <div class="chips">
-      <button class="chip on" data-n="1">Alta</button>
-      <button class="chip on" data-n="2">Média</button>
-      <button class="chip on" data-n="3">Baixa</button>
-      <button class="chip" data-n="9">Inativas</button>
-      <button class="chip" id="pend">Só não visitadas</button>
-    </div>
-    <div id="progresso" class="prog"></div>
   </header>
+
   <main>
-    <div id="rota"></div>
-    <div class="leg">Alta = ativa, com telefone e nome de linha pesada · Média = perfil parecido · Baixa = autopeças em geral. Só a visita confirma o que a loja vende.</div>
+    <div id="info" class="info"></div>
     <div id="lista"></div>
-    <p class="mu rodape">Levantamento de <span id="hoje"></span>. Dados de diretório, Receita Federal e IBGE; podem estar desatualizados. Suas marcações e anotações ficam salvas só neste aparelho.</p>
   </main>
   <div id="salvo" class="salvo" role="status" aria-live="polite"></div>
 </div>
